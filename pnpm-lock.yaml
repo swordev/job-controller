@@ -12,8 +12,8 @@ importers:
       '@types/node': ^16.11.33
       '@typescript-eslint/eslint-plugin': ^5.23.0
       '@typescript-eslint/parser': ^5.23.0
-      '@wspa/cli': ^0.1.0
-      '@wspa/config': ^0.0.3
+      '@wspa/cli': ^0.1.1
+      '@wspa/config': ^0.0.4
       eslint: ^8.15.0
       jest: ^27.5.1
       prettier: 2.5.1
@@ -30,8 +30,8 @@ importers:
       '@types/node': 16.11.33
       '@typescript-eslint/eslint-plugin': 5.23.0_17b6d2ce7129f0b36f2c30ae592c16e7
       '@typescript-eslint/parser': 5.23.0_eslint@8.15.0+typescript@4.6.4
-      '@wspa/cli': 0.1.0
-      '@wspa/config': 0.0.3
+      '@wspa/cli': 0.1.1
+      '@wspa/config': 0.0.4
       eslint: 8.15.0
       jest: 27.5.1
       prettier: 2.5.1
@@ -1551,8 +1551,8 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: true
 
-  /@wspa/cli/0.1.0:
-    resolution: {integrity: sha512-Db0GdPl8+4RyU2ysoNm20QnA4iB6TGN8/e4IMHJ8RujlPXnzxxqNNNKnxivqXkWkLlcCyvl0zKIbOO41jGRXYQ==}
+  /@wspa/cli/0.1.1:
+    resolution: {integrity: sha512-CtdOL8SviwqW1n+5nQQWDSUn+B2G0PbYCr/lyRWyQ02Klh+yX3MG7exFptjjUf0dfha9G5hM95gEVOwnpZXBNA==}
     hasBin: true
     dependencies:
       '@pnpm/find-workspace-packages': 4.0.4_@pnpm+logger@4.0.0
@@ -1565,10 +1565,10 @@ packages:
       yaml: 2.0.1
     dev: true
 
-  /@wspa/config/0.0.3:
-    resolution: {integrity: sha512-uOX/xvAuicsaNOpF4NGkZ1VGmTlcJlXkVCNHtr6YuB4nEr18wTlyYSwWQETJ3m/9SdzVJwhcus1w8nY6o/vplQ==}
+  /@wspa/config/0.0.4:
+    resolution: {integrity: sha512-Rnkz0/CXo1BBv8n96hvMiRh9fBWuwMmqH68wK4tfPdm0K9R/gzvnRzW6SGZcPcN6VdoBFOuTJQcJnzpEvB6C8w==}
     dependencies:
-      '@wspa/cli': 0.1.0
+      '@wspa/cli': 0.1.1
     dev: true
 
   /@zkochan/npm-conf/2.0.2:
