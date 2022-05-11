@@ -7,7 +7,7 @@
     "watch": "tsc -b -w"
   },
   "dependencies": {
-    "@smcp/core": "^0.0.2",
+    "@smcp/core": "^0.0.3",
     "ajv": "^8.10.0",
     "chalk": "^4.1.2",
     "commander": "^9.0.0",
