@@ -1,5 +1,5 @@
 {
-  "name": "job-controller",
+  "name": "@job-controller/root",
   "private": true,
   "description": "Tool for creating resources",
   "homepage": "https://github.com/swordev/job-controller#readme",
