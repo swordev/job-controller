@@ -84,9 +84,13 @@ export default () => {
   program.command("start-server").action(
     makeAction(async () => {
       const globalOptions = getGlobalOptions();
-      return await startServer({
+      const server = await startServer({
         config: globalOptions.configPath,
         verbose: globalOptions.verbose,
+      });
+      await new Promise((resolve, reject) => {
+        server.http.on("error", reject);
+        server.http.on("close", resolve);
       });
     })
   );
