@@ -35,7 +35,7 @@ jobs:
       - name: Build
         run: pnpm build
       - name: Test
-        run: echo success # pnpm test
+        run: pnpm test
       - name: Patch
         run: pnpm patch
       - name: Create release pull request or publish to npm
