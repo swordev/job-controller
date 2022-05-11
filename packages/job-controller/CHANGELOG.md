@@ -1,5 +1,12 @@
 # job-controller
 
+## 0.0.4
+
+### Patch Changes
+
+- Updated dependencies [[`000c39d`](https://github.com/swordev/job-controller/commit/000c39d1d1835071af7589f1d9fbba51b3694562)]:
+  - @job-controller/cli@0.0.4
+
 ## 0.0.3
 
 ### Patch Changes
