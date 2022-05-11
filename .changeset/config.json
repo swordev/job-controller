@@ -1,0 +1,16 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@2.0.0/schema.json",
+  "access": "public",
+  "baseBranch": "main",
+  "changelog": [
+    "@changesets/changelog-github",
+    {
+      "repo": "swordev/job-controller"
+    }
+  ],
+  "commit": false,
+  "fixed": [["@job-controller/cli", "job-controller"]],
+  "ignore": [],
+  "linked": [],
+  "updateInternalDependencies": "patch"
+}

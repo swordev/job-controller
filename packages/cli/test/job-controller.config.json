@@ -1,0 +1,16 @@
+{
+  "jobs": {
+    "echo": {
+      "command": "echo",
+      "args": ["hello", "@"]
+    },
+    "sleep": {
+      "command": "sleep",
+      "args": ["@"]
+    }
+  },
+  "server": {
+    "port": 0,
+    "logging": false
+  }
+}

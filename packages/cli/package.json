@@ -1,0 +1,32 @@
+{
+  "name": "@job-controller/cli",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "tsc -b --clean",
+    "watch": "tsc -b -w"
+  },
+  "dependencies": {
+    "@smcp/core": "^0.0.2",
+    "ajv": "^8.10.0",
+    "chalk": "^4.1.2",
+    "commander": "^9.0.0",
+    "iconv-lite": "^0.6.3",
+    "reflect-metadata": "^0.1.13",
+    "tsyringe": "^4.6.0"
+  },
+  "devDependencies": {
+    "@types/json-schema": "^7.0.9"
+  },
+  "publishConfig": {
+    "directory": "lib"
+  },
+  "x-wspa": {
+    "distFiles": [
+      "config.schema.json"
+    ],
+    "pkgManifest": {
+      "bin": "bin.js"
+    }
+  }
+}

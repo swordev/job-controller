@@ -1,0 +1,87 @@
+{
+  "additionalProperties": false,
+  "definitions": {
+    "server": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "port": {
+          "type": "integer"
+        },
+        "connectionTokens": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "logging": {
+          "type": "boolean"
+        }
+      }
+    },
+    "client": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "connectionToken": {
+          "type": "string"
+        }
+      }
+    },
+    "job": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["command"],
+      "properties": {
+        "command": {
+          "type": "string"
+        },
+        "charset": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["decoding"],
+          "properties": {
+            "decoding": {
+              "type": "string"
+            }
+          }
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "uid": {
+          "type": "integer"
+        },
+        "gid": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "properties": {
+    "server": {
+      "$ref": "#/definitions/server"
+    },
+    "client": {
+      "$ref": "#/definitions/client"
+    },
+    "jobs": {
+      "type": "object",
+      "patternProperties": {
+        ".+": {
+          "$ref": "#/definitions/job"
+        }
+      }
+    }
+  },
+  "type": "object"
+}
