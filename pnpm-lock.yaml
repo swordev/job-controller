@@ -42,7 +42,7 @@ importers:
 
   packages/cli:
     specifiers:
-      '@smcp/core': ^0.0.3
+      '@smcp/core': ^0.0.4
       '@types/json-schema': ^7.0.9
       ajv: ^8.10.0
       chalk: ^4.1.2
@@ -51,7 +51,7 @@ importers:
       reflect-metadata: ^0.1.13
       tsyringe: ^4.6.0
     dependencies:
-      '@smcp/core': 0.0.3_fd4b5ff48b408bf425abfec4a641da13
+      '@smcp/core': 0.0.4_fd4b5ff48b408bf425abfec4a641da13
       ajv: 8.11.0
       chalk: 4.1.2
       commander: 9.2.0
@@ -1227,8 +1227,8 @@ packages:
       '@sinonjs/commons': 1.8.3
     dev: true
 
-  /@smcp/core/0.0.3_fd4b5ff48b408bf425abfec4a641da13:
-    resolution: {integrity: sha512-Cbx+MUT3PZ6suWus/N0qC3dEJVNhbTqQaCL0AZGAKeCkJ/zHPTkfPGkoC6dvZg0WQOSvEKg/KDduPTpSrV0hEQ==}
+  /@smcp/core/0.0.4_fd4b5ff48b408bf425abfec4a641da13:
+    resolution: {integrity: sha512-5Nj3rnCmdt54ZZKgfZTxKCede8T5aUQw+Ytv5qbc0oRDC6Ps3toFFKRwUChhMh1JYczOhwGGlSKP2/1FSDElqw==}
     dependencies:
       '@types/ws': 8.5.3
       anymatch: 3.1.2
