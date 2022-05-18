@@ -10,6 +10,7 @@ describe("start", () => {
   it("starts a new process", async () => {
     const server = await startServer({
       config: await parseConfigFile(configPath),
+      optionalConnectionToken: true,
     });
     const config = {
       client: {

@@ -11,6 +11,7 @@ describe("list", () => {
   it("returns the current job", async () => {
     const server = await startServer({
       config: await parseConfigFile(configPath),
+      optionalConnectionToken: true,
     });
 
     const config = {
