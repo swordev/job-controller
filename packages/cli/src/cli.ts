@@ -99,20 +99,24 @@ export default () => {
       });
     })
   );
-  program.command("start-server").action(
-    makeAction(async () => {
-      const globalOptions = await getGlobalOptions();
-      const server = await startServer({
-        config: globalOptions.configPath,
-        verbose: globalOptions.verbose,
-        loadEnvConfig: globalOptions.loadEnvConfig,
-      });
-      await new Promise((resolve, reject) => {
-        server.http.on("error", reject);
-        server.http.on("close", resolve);
-      });
-    })
-  );
+  program
+    .command("start-server")
+    .option("--optional-connection-token")
+    .action(
+      makeAction(async (options: { optionalConnectionToken?: boolean }) => {
+        const globalOptions = await getGlobalOptions();
+        const server = await startServer({
+          config: globalOptions.configPath,
+          verbose: globalOptions.verbose,
+          loadEnvConfig: globalOptions.loadEnvConfig,
+          optionalConnectionToken: options.optionalConnectionToken,
+        });
+        await new Promise((resolve, reject) => {
+          server.http.on("error", reject);
+          server.http.on("close", resolve);
+        });
+      })
+    );
   program
     .command("stop")
     .option("-i,--id [values]", "Job ids.", parseNumberList, [])

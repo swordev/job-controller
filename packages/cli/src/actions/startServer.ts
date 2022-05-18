@@ -8,6 +8,7 @@ export type StartServerOptions = {
   verbose?: boolean;
   config: string | Config;
   loadEnvConfig?: boolean;
+  optionalConnectionToken?: boolean;
 };
 
 export default async function startServer(options: StartServerOptions) {
@@ -24,6 +25,7 @@ export default async function startServer(options: StartServerOptions) {
     ...configData.server,
     api,
     container,
+    requireConnectionToken: !options.optionalConnectionToken,
     async onJsonRequest({ container }) {
       container.register(ConfigModel, {
         useValue: ConfigModel.create(currentConfigData),
