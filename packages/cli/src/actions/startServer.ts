@@ -1,5 +1,5 @@
 import api from "../api";
-import { Config, ConfigModel, parseFile } from "../utils/self/config";
+import { Config, ConfigModel, parseConfigFile } from "../utils/self/config";
 import { Server } from "@smcp/core/Server";
 import { unwatchFile, watchFile } from "fs";
 import { container } from "tsyringe";
@@ -7,12 +7,17 @@ import { container } from "tsyringe";
 export type StartServerOptions = {
   verbose?: boolean;
   config: string | Config;
+  loadEnvConfig?: boolean;
 };
 
 export default async function startServer(options: StartServerOptions) {
   const config = options.config;
   const configData =
-    typeof config === "string" ? await parseFile(config) : config;
+    typeof config === "string"
+      ? await parseConfigFile(config, {
+          loadEnvConfig: options.loadEnvConfig,
+        })
+      : config;
   let currentConfigData = configData;
   const server = new Server({
     logging: true,
@@ -31,12 +36,19 @@ export default async function startServer(options: StartServerOptions) {
   if (typeof config === "string") {
     watchFile(config, async () => {
       try {
-        currentConfigData = await parseFile(config);
+        currentConfigData = await parseConfigFile(config, {
+          loadEnvConfig: options.loadEnvConfig,
+        });
       } catch (error) {
         console.error(error);
       }
+
       server.updateOptions({
-        connectionTokens: currentConfigData.server?.connectionTokens ?? [],
+        connectionTokens: Array.isArray(
+          currentConfigData.server?.connectionTokens
+        )
+          ? currentConfigData.server?.connectionTokens
+          : (null as never),
       });
     });
     server.http.on("close", () => unwatchFile(config));

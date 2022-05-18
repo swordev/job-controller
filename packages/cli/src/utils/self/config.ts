@@ -1,4 +1,4 @@
-import { parseJsonFile } from "../fs";
+import { parseJsonFile, safeStat } from "../fs";
 import { rootPath } from "../path";
 import { ClientOptionsType } from "@smcp/core/Client";
 import { OptionsType as ServerOptionsType } from "@smcp/core/Server";
@@ -39,17 +39,72 @@ export class ConfigModel {
   }
 }
 
-export async function parseFile(
+export function parseEnvConfig(prefix = "JOB_CONTROLLER_") {
+  const env = (name: string) => process.env[`${prefix}${name}`];
+  const serverConnectionToken = env("SERVER_CONNECTION_TOKEN");
+
+  return {
+    server: {
+      address: env("SERVER_ADDRESS"),
+      connectionTokens: serverConnectionToken
+        ? [serverConnectionToken]
+        : undefined,
+    },
+    client: {
+      connectionToken: env("CLIENT_CONNECTION_TOKEN"),
+      url: env("CLIENT_URL"),
+    },
+  } as Pick<Config, "server" | "client">;
+}
+
+export function mergeConfig(config1: Config, config2: Config): Config {
+  return {
+    server: {
+      ...config1.server,
+      ...config2.server,
+      ...((config1.server?.connectionTokens ||
+        config2.server?.connectionTokens) && {
+        connectionTokens: [
+          ...(config1.server?.connectionTokens || []),
+          ...(config2.server?.connectionTokens || []),
+        ],
+      }),
+    },
+    client: {
+      ...config1.client,
+      ...config2.client,
+    },
+  };
+}
+
+export async function parseConfigFile(
   path: string,
-  deleteCache = true
+  options: {
+    /**
+     * @default true
+     */
+    requireConfigFile?: boolean;
+    /**
+     * @default true
+     */
+    deleteCache?: boolean;
+    loadEnvConfig?: boolean;
+  } = {}
 ): Promise<Config> {
-  let json: Config;
+  const deleteCache = options.deleteCache ?? true;
+  const requireConfigFile = options.requireConfigFile ?? true;
+  let json: Config = {};
   path = resolve(path);
   if (deleteCache) delete require.cache[path];
-  if (path.endsWith(".json")) {
-    json = await parseJsonFile(path);
-  } else {
-    json = require(path);
+  if (requireConfigFile || (await safeStat(path))) {
+    if (path.endsWith(".json")) {
+      json = await parseJsonFile(path);
+    } else {
+      json = require(path);
+    }
+  }
+  if (options.loadEnvConfig) {
+    json = mergeConfig(json, parseEnvConfig());
   }
   const configSchemaPath = `${rootPath}/config.schema.json`;
   const configSchema = await parseJsonFile(configSchemaPath);

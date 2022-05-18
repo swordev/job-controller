@@ -2,7 +2,7 @@ import { Config } from "../utils/self/config";
 import { makeClient } from "../utils/self/smcp";
 
 export type StartOptions = {
-  config: string | Config;
+  config: Config;
   name: string;
   args?: string[];
   onStderr?: (data: string) => void;

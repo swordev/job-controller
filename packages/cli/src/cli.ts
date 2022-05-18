@@ -5,6 +5,7 @@ import start from "./actions/start";
 import startServer from "./actions/startServer";
 import { stop } from "./actions/stop";
 import { rootPath } from "./utils/path";
+import { parseConfigFile } from "./utils/self/config";
 import { parseNumberList } from "./utils/string";
 import { red } from "chalk";
 import { program } from "commander";
@@ -17,10 +18,20 @@ const pkg: {
 
 export type GlobalOptions = {
   configPath: string;
+  loadEnvConfig?: boolean;
   verbose?: boolean;
 };
 
-function getGlobalOptions(): GlobalOptions {
+async function autoParseConfigFile(options: GlobalOptions) {
+  const requireConfigFile =
+    program.getOptionValueSource("configPath") === "cli";
+  return await parseConfigFile(options.configPath, {
+    requireConfigFile,
+    loadEnvConfig: options.loadEnvConfig,
+  });
+}
+
+async function getGlobalOptions() {
   const options = program.opts() as GlobalOptions;
   return options;
 }
@@ -47,20 +58,26 @@ export default () => {
     .version(pkg.version)
     .option("-v,--verbose")
     .option(
+      "--load-env-config",
+      "Load the config from env variables (JOB_CONTROLLER_*)"
+    )
+    .option(
       "-c,--config-path [path]",
       "Config path",
       process.env["JOB_CONTROLLER_CONFIG_PATH"] ?? "./job-controller.config.js"
     );
   program.command("check").action(
     makeAction(async () => {
-      const globalOptions = getGlobalOptions();
-      await check({ config: globalOptions.configPath });
+      const globalOptions = await getGlobalOptions();
+      const config = await autoParseConfigFile(globalOptions);
+      await check({ config });
     })
   );
   program.command("list").action(
     makeAction(async () => {
-      const globalOptions = getGlobalOptions();
-      const jobs = await list({ config: globalOptions.configPath });
+      const globalOptions = await getGlobalOptions();
+      const config = await autoParseConfigFile(globalOptions);
+      const jobs = await list({ config });
       for (const job of jobs) {
         console.info({
           id: job.id,
@@ -73,9 +90,10 @@ export default () => {
   );
   program.command("start [jobName] [args...]").action(
     makeAction(async (name, args) => {
-      const globalOptions = getGlobalOptions();
+      const globalOptions = await getGlobalOptions();
+      const config = await autoParseConfigFile(globalOptions);
       return await start({
-        config: globalOptions.configPath,
+        config,
         name,
         args,
       });
@@ -83,10 +101,11 @@ export default () => {
   );
   program.command("start-server").action(
     makeAction(async () => {
-      const globalOptions = getGlobalOptions();
+      const globalOptions = await getGlobalOptions();
       const server = await startServer({
         config: globalOptions.configPath,
         verbose: globalOptions.verbose,
+        loadEnvConfig: globalOptions.loadEnvConfig,
       });
       await new Promise((resolve, reject) => {
         server.http.on("error", reject);
@@ -99,9 +118,10 @@ export default () => {
     .option("-i,--id [values]", "Job ids.", parseNumberList, [])
     .action(
       makeAction(async (options: { id: number[] }) => {
-        const globalOptions = getGlobalOptions();
+        const globalOptions = await getGlobalOptions();
+        const config = await autoParseConfigFile(globalOptions);
         return await stop({
-          config: globalOptions.configPath,
+          config,
           ids: options.id,
         });
       })

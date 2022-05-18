@@ -2,13 +2,14 @@
 import "reflect-metadata";
 import start from "../../src/actions/start";
 import startServer from "../../src/actions/startServer";
+import { parseConfigFile } from "../../src/utils/self/config";
 
 const configPath = `${__dirname}/../job-controller.config.json`;
 
 describe("start", () => {
   it("starts a new process", async () => {
     const server = await startServer({
-      config: configPath,
+      config: await parseConfigFile(configPath),
     });
     const config = {
       client: {

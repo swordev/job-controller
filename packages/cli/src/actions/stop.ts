@@ -3,7 +3,7 @@ import { makeClient } from "../utils/self/smcp";
 
 export type StopOptions = {
   ids: number[];
-  config: string | Config;
+  config: Config;
 };
 
 export async function stop(options: StopOptions) {

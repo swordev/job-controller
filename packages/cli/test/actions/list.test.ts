@@ -3,13 +3,14 @@ import "reflect-metadata";
 import list from "../../src/actions/list";
 import start from "../../src/actions/start";
 import startServer from "../../src/actions/startServer";
+import { parseConfigFile } from "../../src/utils/self/config";
 
 const configPath = `${__dirname}/../job-controller.config.json`;
 
 describe("list", () => {
   it("returns the current job", async () => {
     const server = await startServer({
-      config: configPath,
+      config: await parseConfigFile(configPath),
     });
 
     const config = {
