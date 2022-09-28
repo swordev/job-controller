@@ -24,6 +24,7 @@ export type Config = {
       command: string;
       charset?: { decoding: string };
       args: string[];
+      env?: Record<string, string>;
       uid?: number;
       gid?: number;
     }

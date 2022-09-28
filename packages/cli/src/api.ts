@@ -54,6 +54,10 @@ export class JobApi {
     const childProcess = spawn(jobConfig.command, args, {
       gid: jobConfig.gid,
       uid: jobConfig.uid,
+      env: {
+        ...process.env,
+        ...jobConfig.env,
+      },
     });
 
     const job: Job = {

@@ -58,6 +58,14 @@
             "type": "string"
           }
         },
+        "env": {
+          "type": "object",
+          "patternProperties": {
+            ".+": {
+              "type": "string"
+            }
+          }
+        },
         "uid": {
           "type": "integer"
         },
