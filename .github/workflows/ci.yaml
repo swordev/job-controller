@@ -32,10 +32,9 @@ jobs:
         run: pnpm install
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Test
-        run: pnpm test
-      - name: Build
-        run: pnpm build
+      - run: pnpm test
+      - run: pnpm compose
+      - run: pnpm build
       - name: Create release pull request or publish to npm
         id: changesets
         uses: changesets/action@v1
